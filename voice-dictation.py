@@ -322,8 +322,11 @@ Text to clean:
             return text
     
     def type_text(self, text):
+        estimated_time = len(text) * 0.012 + 1
+        timeout = max(5, min(estimated_time, 30))
+        
         try:
-            subprocess.run(["ydotool", "type", text], check=True, timeout=5)
+            subprocess.run(["ydotool", "type", text], check=True, timeout=timeout)
             log(f"Typed text: {text[:30]}")
         except subprocess.CalledProcessError as e:
             log(f"ydotool failed: {e}")
@@ -332,8 +335,14 @@ Text to clean:
             log("ydotool not found")
             notify_error("Typing failed", "ydotool not installed")
         except subprocess.TimeoutExpired:
-            log("ydotool timed out")
-            notify_error("Typing failed", "ydotool timed out")
+            log("ydotool timed out, releasing stuck keys")
+            for keycode in [58, 42, 29, 56, 54]:
+                try:
+                    subprocess.run(["ydotool", "key", f"{keycode}:1", f"{keycode}:0"], 
+                                  timeout=1, capture_output=True)
+                except:
+                    pass
+            notify_error("Typing timed out", f"Text may be too long ({len(text)} chars)")
         except Exception as e:
             log(f"ydotool failed: {e}")
             notify_error("Typing failed", str(e)[:40])
