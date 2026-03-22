@@ -13,5 +13,6 @@ fi
 echo "$(date '+%Y-%m-%d %H:%M:%S') - No process found, starting new" >> "$DEBUG_LOG"
 
 cd /home/shaun/Builds/The-Dictator
-export GROQ_API_KEY="your-api-key-here"
+source .env
+export GROQ_API_KEY
 nohup python3 voice-dictation.py > /dev/null 2>&1 &
