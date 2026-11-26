@@ -1,0 +1,10 @@
+{
+  "audio_device": "default",
+  "llm_cleanup": true,
+  "clipboard_copy": true,
+  "whisper_model": "whisper-large-v3-turbo",
+  "llm_model": "openai/gpt-oss-20b",
+  "language": "en",
+  "corrections_file": "~/.config/voice-dictation/corrections.json",
+  "vocabulary": []
+}

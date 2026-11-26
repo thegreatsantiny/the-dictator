@@ -1,7 +1,3 @@
 pyaudio
-keyboard
 groq
-pystray
-pillow
 numpy
-PyQt6
